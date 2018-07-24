@@ -1,5 +1,5 @@
 require 'spec_helper'
-require_relative '../../rap-battle/rap_battle.rb'
+require './rap-battle/rap_battle.rb'
 
 include RapBattleHelper
 
