@@ -4,4 +4,4 @@
 ## 4. [Basic rules to follow](4.md)
 ## 5. [Testing instruments overview](5.md)
 ## 6. [TDD && BDD](6.md)
-## 7. [Examples](7.md)
+## 7. [Examples](/examples)
