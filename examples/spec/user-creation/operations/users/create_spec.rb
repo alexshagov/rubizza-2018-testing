@@ -5,6 +5,18 @@ RSpec.describe Operations::Users::Create do
   subject { described_class.new(user_params: user_params, email_notifier: email_notifier_double) }
 
   describe ".call" do
+    before do
+      stub_request(:post, "http://www.example.com/foo/bar").
+        with(
+          body: "notification",
+          headers: {
+       	    'Accept'=>'*/*',
+       	    'Host'=>'www.example.com',
+       	    'User-Agent'=>'Ruby'
+          }).
+        to_return(status: 201, body: "", headers: {})
+    end
+
     let(:user_params) do
       {
         name: 'John',
@@ -41,7 +53,9 @@ RSpec.describe Operations::Users::Create do
 
     describe 'notification sending' do
       it 'sends notification to external API about user creation' do
-        raise
+        subject.call
+
+        expect(WebMock).to have_requested(:post, "http://www.example.com/foo/bar").once
       end
     end
   end
