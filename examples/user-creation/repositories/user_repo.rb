@@ -12,8 +12,8 @@ class UserRepo
       new_user
     end
 
-    def exists?(name:)
-      all.any? { |user| user[:name] == name }
+    def exists?(email:)
+      all.any? { |user| user[:email] == email }
     end
   end
 end
