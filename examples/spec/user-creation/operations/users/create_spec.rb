@@ -2,30 +2,46 @@ require 'spec_helper'
 require './user-creation/operations/users/create.rb'
 
 RSpec.describe Operations::Users::Create do
+  subject { described_class.new(user_params: user_params, email_notifier: email_notifier_double) }
+
   describe ".call" do
     let(:user_params) do
       {
         name: 'John',
         sex: 'male',
-        age: 25
+        age: 25,
+        email: 'user@email.com'
       }
     end
+    let(:email_notifier_double) { class_double('Notifiers::EmailNotifier', call: true) }
 
-    it 'creates user' do
-      expect { subject.call(user_params: user_params) }.to change { UserRepo.all.count }.by(1)
+    describe 'user creation' do
+      it 'creates user' do
+        expect { subject.call }.to change { UserRepo.all.count }.by(1)
+      end
+
+      context 'when user already exists' do
+        it 'returns appropriate error' do
+          raise 
+        end
+      end
     end
 
-    it 'sends email to user\'s email' do
+    describe 'email sending' do
+      it 'sets email notifier as default notifier' do
+        expect(described_class.new(user_params: nil).email_notifier).to be Notifiers::EmailNotifier
+      end
 
+      it 'sends email to user\'s email' do
+        expect(email_notifier_double).to receive(:call).with(email: user_params[:email], text: 'Welcome, traveller!')
+
+        subject.call
+      end
     end
 
-    it 'sends notification to external API about user creation' do
-
-    end
-
-    context 'when user already exists' do
-      it 'returns appropriate error' do
-
+    describe 'notification sending' do
+      it 'sends notification to external API about user creation' do
+        raise
       end
     end
   end
