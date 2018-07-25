@@ -36,6 +36,10 @@ RSpec.describe Operations::Users::Create do
     let(:validation_service_double) { class_double('Validations::Users::Create') }
 
     describe 'user creation' do
+      it 'sets user validator as default validator' do
+        expect(described_class.new(user_params: nil).validation_service).to be Validations::Users::Create
+      end
+
       context 'when no validation errors' do
         before do
           allow(validation_service_double).to receive(:call).and_return(success_validation_result)
