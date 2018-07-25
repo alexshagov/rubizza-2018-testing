@@ -36,7 +36,7 @@ RSpec.describe Operations::Users::Create do
     let(:validation_service_double) { class_double('Validations::Users::Create') }
 
     describe 'user creation' do
-      context 'when not validation errors' do
+      context 'when no validation errors' do
         before do
           allow(validation_service_double).to receive(:call).and_return(success_validation_result)
         end
